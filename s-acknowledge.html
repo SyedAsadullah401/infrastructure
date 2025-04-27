@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acknowledge Emergency - College Safety Alert</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #d63031;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .submit-btn {
+      background-color: #00b894;
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      flex: 1;
+    }
+    .back-btn {
+      background-color: #636e72;
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .submit-btn:hover {
+      background-color: #019875;
+    }
+    .back-btn:hover {
+      background-color: #2d3436;
+    }
+    .footer {
+      padding: 10px;
+      text-align: center;
+      background-color: #dfe6e9;
+      margin-top: 20px;
+      color: #636e72;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>📢 Acknowledge Emergency Situation</h1>
+  </div>
+
+  <div class="container">
+    <h2>Acknowledge the emergency event:</h2>
+    <form class="form-container" action="notification.html" method="post">
+      <label for="alert-type">Alert Type:</label>
+      <select id="alert-type" name="alert-type">
+        <option value="fire">Fire</option>
+        <option value="unauthorized-access">Unauthorized Access</option>
+        <option value="suspicious-activity">Suspicious Activity</option>
+        <option value="smoke-warning">Smoke Warning</option>
+      </select>
+
+      <label for="action-taken">Actions Taken:</label>
+      <textarea id="action-taken" name="action-taken" rows="4" placeholder="Describe the actions you've taken so far..." required></textarea>
+
+      <label for="incident-resolved">Is the incident resolved?</label>
+      <select id="incident-resolved" name="incident-resolved">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <label for="remarks">Additional Remarks:</label>
+      <textarea id="remarks" name="remarks" rows="4" placeholder="Provide any additional remarks or comments..." required></textarea>
+
+      <div class="form-actions">
+        <a href="s-alerts.html" class="back-btn">← Back</a>
+        <button type="submit" class="submit-btn">Acknowledge & Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Campus Safety System | Developed with ❤️ for student safety
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Student (Editable)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #c3ecf9, #a2c9f7);
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      animation: slideInDown 1s ease;
+    }
+
+    @keyframes slideInDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      animation: fadeInUp 1.2s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .student-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .student-details div {
+      background: #f1f2f6;
+      padding: 14px 18px;
+      border-left: 5px solid #007bff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: 0.3s;
+    }
+
+    .student-details div:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    .details-title {
+      font-weight: bold;
+      color: #1e272e;
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .student-details span {
+      font-size: 15px;
+      color: #2f3542;
+    }
+
+    .status-label {
+      display: inline-block;
+      background: #ffeaa7;
+      color: #2f3542;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .time-label {
+      display: inline-block;
+      background: #dff9fb;
+      color: #130f40;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 6px;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .chart-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .pie-chart-container, .image-container {
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pie-chart-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container:hover {
+      transform: scale(1.1) rotate(2deg);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .pie-chart-container {
+      width: 50%;
+      animation: bounceIn 1.2s ease;
+    }
+
+    .image-container {
+      width: 30%;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.05); opacity: 1; }
+      80% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .image-container img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    canvas {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .buttons-section {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      margin: 8px;
+      transition: transform 0.3s ease, background-color 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .edit-btn {
+      background-color: #ffa502;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #e69a00;
+    }
+
+    .save-btn {
+      background-color: #2ed573;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background-color: #28c76f;
+    }
+
+    .cancel-btn {
+      background-color: #ff6b81;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background-color: #ff4757;
+    }
+
+    .back-btn {
+      background-color: #1e90ff;
+      color: white;
+    }
+
+    .back-btn:hover {
+      background-color: #0c7cd5;
+    }
+
+    .student-details-container {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>About Student</h1>
+  </div>
+
+  <div class="container">
+    <div class="chart-container">
+      <div class="image-container">
+        <img src="https://th.bing.com/th/id/OIP.W2efx4Bmud5qjc5Obq46BgHaHa?w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2" alt="Student Image" id="studentImage">
+      </div>
+
+      <div class="pie-chart-container">
+        <h2>Attendance Chart</h2>
+        <canvas id="attendanceChart"></canvas>
+      </div>
+    </div>
+
+    <div class="student-details-container">
+      <h2>Student Details</h2>
+      <div class="student-details" id="studentDetails"></div>
+    </div>
+
+    <div class="buttons-section">
+      <button class="btn edit-btn" onclick="enableEditing()">Edit Personal Details</button>
+      <button class="btn save-btn" onclick="saveChanges()">Save Changes</button>
+      <button class="btn cancel-btn" onclick="cancelEditing()">Cancel</button>
+      <button class="btn back-btn" onclick="window.history.back()">⬅ Go Back</button>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const student = {
+      Name: params.get('name') || 'Unknown',
+      Age: params.get('age') || '21',
+      Gender: params.get('gender') || 'Male',
+      DOB: params.get('dob') || '01/01/2006',
+      Parent: params.get('parent') || 'John Doe',
+      Address: params.get('address') || '123 Example Street',
+      City: params.get('city') || 'Narasaraopeta',
+      State: params.get('state') || 'Andhra Pradesh',
+      Status: params.get('status') || 'Not Marked',
+      Time: params.get('time') || '--'
+    };
+
+    let isEditing = false;
+
+    function renderDetails() {
+      const container = document.getElementById('studentDetails');
+      container.innerHTML = '';
+      for (const key in student) {
+        const value = student[key];
+        const item = document.createElement('div');
+
+        if (key === 'Status') {
+          item.innerHTML = `<span class="details-title">${key}:</span> <span class="status-label">${value}</span>`;
+        } else if (key === 'Time') {
+          item.innerHTML = `<span class="details-title">${key}:</span> <span class="time-label">${value}</span>`;
+        } else {
+          item.innerHTML = `
+            <span class="details-title">${key}:</span>
+            <span id="value-${key}">
+              ${isEditing
+                ? `<input type="text" id="input-${key}" value="${value}">`
+                : value}
+            </span>
+          `;
+        }
+
+        container.appendChild(item);
+      }
+    }
+
+    function enableEditing() {
+      isEditing = true;
+      renderDetails();
+      document.querySelector('.save-btn').style.display = 'inline-block';
+      document.querySelector('.cancel-btn').style.display = 'inline-block';
+      document.querySelector('.edit-btn').style.display = 'none';
+    }
+
+    function saveChanges() {
+      for (const key in student) {
+        const input = document.getElementById(`input-${key}`);
+        if (input) {
+          student[key] = input.value;
+        }
+      }
+      isEditing = false;
+      renderDetails();
+      document.querySelector('.save-btn').style.display = 'none';
+      document.querySelector('.cancel-btn').style.display = 'none';
+      document.querySelector('.edit-btn').style.display = 'inline-block';
+    }
+
+    function cancelEditing() {
+      isEditing = false;
+      renderDetails();
+      document.querySelector('.save-btn').style.display = 'none';
+      document.querySelector('.cancel-btn').style.display = 'none';
+      document.querySelector('.edit-btn').style.display = 'inline-block';
+    }
+
+    renderDetails();
+
+    const students = ["Alice", "Bob", "Charlie", "Diana", "Ethan"];
+    let present = 0, absent = 0, notMarked = 0;
+
+    students.forEach(s => {
+      const status = (s === student.Name) ? student.Status : 'Not Marked';
+      if (status === "Present") present++;
+      else if (status === "Absent") absent++;
+      else notMarked++;
+    });
+
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Present', 'Absent', 'Not Marked'],
+        datasets: [{
+          label: 'Attendance',
+          data: [present, absent, notMarked],
+          backgroundColor: ['#2ed573', '#ff4757', '#dfe4ea']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

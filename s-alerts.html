@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>College Safety Alert System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #d63031;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      margin: 0;
+    }
+    .back-btn {
+      background-color: #00b894;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background-color: #019875;
+    }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .alert-box {
+      background-color: #ffeaa7;
+      border-left: 10px solid #d63031;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .alert-box h3 {
+      margin-top: 0;
+    }
+    .alert-box button {
+      background-color: #00b894;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .alert-box button:hover {
+      background-color: #019875;
+    }
+    .map-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .map {
+      height: 400px;
+      background-color: #dfe6e9;
+      width: 48%;
+      border-radius: 10px;
+    }
+    .footer {
+      margin-top: 30px;
+      padding: 10px;
+      text-align: center;
+      background-color: #dfe6e9;
+      color: #636e72;
+    }
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      width: 100%;
+      flex-direction: column;
+    }
+    video {
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
+      height: auto;
+    }
+    .location-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .location-container p {
+      font-size: 16px;
+      color: #2d3436;
+    }
+    .toggle-btn-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .toggle-btn {
+      background-color: #00b894;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+    }
+    .toggle-btn:hover {
+      background-color: #019875;
+    }
+
+    .highlight {
+      animation: flash 2s ease;
+    }
+
+    @keyframes flash {
+      0% { box-shadow: 0 0 10px 5px #00b894; }
+      100% { box-shadow: none; }
+    }
+  </style>
+</head>
+<body onload="enableCamera()">
+
+  <div class="header">
+    <h1>📢 College Emergency Alert Dashboard</h1>
+    <button class="back-btn" onclick="window.location.href='s-dashboard.html'">Back to Dashboard</button>
+  </div>
+
+  <div class="container">
+    <div class="alert-box">
+      <h3>🔥 Fire Alert - Chemistry Lab</h3>
+      <p>Detected by fire alarm system at 10:23 AM. Evacuate immediately and follow the safety route.</p>
+      <a href="s-safezones.html">
+      <button class="safe-btn" onclick="showSafeZones()" >View Safe Zones</button></a>
+    </div>
+
+    <div class="alert-box">
+      <h3>🚨 Suspicious Activity - Parking Lot</h3>
+      <p>Movement detected near the north entrance at 8:15 PM. Stay alert and avoid isolated areas.</p>
+      <a href="s-acknowledge.html">
+      <button class="safe-btn">Acknowledge</button></a>
+    </div>
+
+    <div class="alert-box">
+      <h3>💨 Smoke Warning - Library Basement</h3>
+      <p>Reported light smoke at 7:50 AM. Electrical team dispatched. Avoid using elevators.</p>
+      <a href="s-smoke.html">
+      <button class="safe-btn">Check Status</button></a>
+    </div>
+
+    <div id="mapSection" class="map-container">
+      <div id="emergencyMap" class="map"></div>
+      <div id="safePlaceMap" class="map"></div>
+    </div>
+
+    <div class="toggle-btn-container">
+      <button class="toggle-btn" onclick="toggleVideoView()">Toggle CCTV / Mobile Camera</button>
+    </div>
+
+    <div class="video-container">
+      <div id="cctvContainer" style="display: block;">
+        <h3>📹 CCTV Camera Feed</h3>
+        <video id="cctvVideo" autoplay muted>
+          <source src="path_to_your_cctv_stream" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div id="mobileContainer" style="display: none;">
+        <h3>📱 Mobile Live Camera View</h3>
+        <video id="liveVideo" autoplay muted playsinline></video>
+      </div>
+    </div>
+
+    <div class="location-container">
+      <p id="locationText">Current Location: Lat: 0, Lng: 0</p>
+    </div>
+  </div>
+
+  <audio id="alertSound">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+  </audio>
+
+  <script>
+    let mobileStream;
+    let userLocationMarker;
+    let emergencyMap;
+    let userLatitude = 0;
+    let userLongitude = 0;
+
+    function enableCamera() {
+      const video = document.getElementById('liveVideo');
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        mobileStream = stream;
+        video.srcObject = stream;
+      }).catch(() => {
+        video.innerText = 'Camera access denied.';
+      });
+    }
+
+    function stopCamera() {
+      if (mobileStream) {
+        mobileStream.getTracks().forEach(track => track.stop());
+        mobileStream = null;
+      }
+    }
+
+    function toggleVideoView() {
+      const cctvContainer = document.getElementById('cctvContainer');
+      const mobileContainer = document.getElementById('mobileContainer');
+
+      if (cctvContainer.style.display === 'block') {
+        cctvContainer.style.display = 'none';
+        mobileContainer.style.display = 'block';
+        enableCamera();
+      } else {
+        stopCamera();
+        cctvContainer.style.display = 'block';
+        mobileContainer.style.display = 'none';
+      }
+    }
+
+    function initMaps() {
+      emergencyMap = new google.maps.Map(document.getElementById("emergencyMap"), {
+        center: { lat: 16.2330, lng: 80.0148 },
+        zoom: 16,
+      });
+
+      const safePlaceMap = new google.maps.Map(document.getElementById("safePlaceMap"), {
+        center: { lat: 16.2330, lng: 80.0148 },
+        zoom: 16,
+      });
+
+      new google.maps.Marker({
+        position: { lat: 16.2332, lng: 80.0145 },
+        map: emergencyMap,
+        title: "Fire Alert - Chemistry Lab"
+      });
+
+      new google.maps.Marker({
+        position: { lat: 16.2325, lng: 80.0152 },
+        map: safePlaceMap,
+        title: "Safe Zone - Library"
+      });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(position => {
+          userLatitude = position.coords.latitude;
+          userLongitude = position.coords.longitude;
+
+          document.getElementById('locationText').textContent = `Current Location: Lat: ${userLatitude.toFixed(4)}, Lng: ${userLongitude.toFixed(4)}`;
+
+          if (userLocationMarker) {
+            userLocationMarker.setPosition({ lat: userLatitude, lng: userLongitude });
+          } else {
+            userLocationMarker = new google.maps.Marker({
+              position: { lat: userLatitude, lng: userLongitude },
+              map: emergencyMap,
+              title: "Your Location",
+              icon: {
+                url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                scaledSize: new google.maps.Size(50, 50),
+              },
+            });
+          }
+
+          emergencyMap.setCenter({ lat: userLatitude, lng: userLongitude });
+        });
+      }
+    }
+
+    function loadGoogleMapsAPI() {
+      const script = document.createElement('script');
+      script.src = script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMaps`;
+      ;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    window.onload = loadGoogleMapsAPI;
+
+    function showSafeZones() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+
+          new google.maps.Marker({
+            position: { lat: userLat + 0.001, lng: userLng + 0.001 },
+            map: emergencyMap,
+            title: "Safe Zone 1"
+          });
+
+          new google.maps.Marker({
+            position: { lat: userLat - 0.001, lng: userLng - 0.001 },
+            map: emergencyMap,
+            title: "Safe Zone 2"
+          });
+
+          emergencyMap.setCenter({ lat: userLat, lng: userLng });
+          emergencyMap.setZoom(16);
+
+          // Scroll & highlight the map section
+          const mapDiv = document.getElementById("mapSection");
+          mapDiv.scrollIntoView({ behavior: "smooth" });
+          mapDiv.classList.add("highlight");
+          setTimeout(() => mapDiv.classList.remove("highlight"), 2000);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
+</body>
+</html>

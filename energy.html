@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Campus Electricity Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .hover-glow:hover {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+      transform: scale(1.05);
+      transition: all 0.3s ease-in-out;
+    }
+    .hover-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    .station-section {
+      display: none;
+    }
+    .station-section.active {
+      display: block;
+    }
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      background-color: #0288d1;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .chart-box {
+      width: 45%;
+      min-width: 300px;
+      margin: 0 auto 20px auto;
+    }
+    .charts-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .overview {
+      background-color: #e0f7fa;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 80%;
+    }
+    .generate-bill {
+      background-color: #00796b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto 10px auto;
+    }
+    .bill-output {
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #00796b;
+    }
+    .nav-button {
+      padding: 15px 20px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      background: none;
+      font-size: 16px;
+    }
+    .nav-button:hover, .nav-button.active {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-blue-200 min-h-screen p-6 scroll-smooth">
+
+  <h1 class="text-4xl md:text-5xl font-extrabold text-blue-800 mb-10 text-center drop-shadow-md">
+    🌟 Smart Campus Electricity Overview 🌟
+  </h1>
+
+  <section id="main-blocks" class="mb-16">
+    <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">📦 Campus Blocks</h2>
+    <div id="blocks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <a href="#" onclick="showBlock('block1')" class="bg-white p-6 rounded-2xl shadow-lg hover-glow text-center block-link">
+        <h3 class="text-xl font-bold text-blue-700 mb-2">Block 1</h3>
+        <p class="text-gray-600">Usage & stats overview</p>
+      </a>
+      <a href="#" onclick="showBlock('block2')" class="bg-white p-6 rounded-2xl shadow-lg hover-glow text-center block-link">
+        <h3 class="text-xl font-bold text-blue-700 mb-2">Block 2</h3>
+        <p class="text-gray-600">Peak usage insights</p>
+      </a>
+      <a href="#" onclick="showBlock('block3')" class="bg-white p-6 rounded-2xl shadow-lg hover-glow text-center block-link">
+        <h3 class="text-xl font-bold text-blue-700 mb-2">Block 3</h3>
+        <p class="text-gray-600">Live monitoring</p>
+      </a>
+      <a href="#" onclick="showBlock('addBlock')" class="bg-white p-6 rounded-2xl shadow-lg hover-glow text-center block-link">
+        <h3 class="text-xl font-bold text-blue-700 mb-2">Add Block</h3>
+        <p class="text-gray-600">Create your block bio</p>
+      </a>
+      <a href="f-dashboard.html"><-   Back to Dashboard</a>
+    </div>
+  </section>
+
+  <section id="block1" class="station-section">
+    <a href="#" onclick="showMain()" class="back-button">⬅ Back to Overview</a>
+    <h2 class="text-3xl font-bold text-center text-blue-800 mb-6">⚡ Block 1 Power Stations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div onclick="showStation('stationA')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Station A</h3>
+        <p class="text-gray-600">Labs & Classrooms on 1st Floor</p>
+      </div>
+      <div onclick="showStation('stationB')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Station B</h3>
+        <p class="text-gray-600">Seminar Hall & Placement Cell</p>
+      </div>
+      <div onclick="showStation('stationC')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Station C</h3>
+        <p class="text-gray-600">Solar System & Admin Block</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="block2" class="station-section">
+    <a href="#" onclick="showMain()" class="back-button">⬅ Back to Overview</a>
+    <h2 class="text-3xl font-bold text-center text-indigo-800 mb-6">🔋 Block 2 Power Stations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div onclick="showStation('stationD')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Station D</h3>
+        <p class="text-gray-600">Research Labs & Data Centers</p>
+        <p class="text-sm text-gray-500">Peak: Weekdays, 10 AM – 4 PM</p>
+      </div>
+      <div onclick="showStation('stationE')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Station E</h3>
+        <p class="text-gray-600">Lecture Halls & Conference Rooms</p>
+        <p class="text-sm text-gray-500">Peak: 8–12 AM, 2–6 PM</p>
+      </div>
+      <div onclick="showStation('stationF')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-indigo-700 mb-2">Station F</h3>
+        <p class="text-gray-600">Cafeteria & Recreation Areas</p>
+        <p class="text-sm text-gray-500">Peak: 12–2 PM, 6–8 PM</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="block3" class="station-section">
+    <a href="#" onclick="showMain()" class="back-button">⬅ Back to Overview</a>
+    <h2 class="text-3xl font-bold text-center text-green-800 mb-6">⚡ Block 3 Power Stations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div onclick="showStation('stationG')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Station G</h3>
+        <p class="text-gray-600">Auditorium & Conference Rooms</p>
+      </div>
+      <div onclick="showStation('stationH')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Station H</h3>
+        <p class="text-gray-600">Cafeteria & Recreation Center</p>
+      </div>
+      <div onclick="showStation('stationI')" class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Station I</h3>
+        <p class="text-gray-600">Research Labs & Innovation Hub</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="addBlock" class="station-section">
+    <a href="#" onclick="showMain()" class="back-button">⬅ Back to Overview</a>
+    <h2 class="text-3xl font-bold text-center text-blue-800 mb-6">➕ Add New Block</h2>
+    <form id="blockForm" class="max-w-lg mx-auto space-y-4">
+      <input type="text" id="newBlockName" placeholder="Block Name (e.g., Block 4)" class="w-full p-3 border border-blue-300 rounded-lg" required />
+      <input type="text" id="station1Name" placeholder="Station 1 Name" class="w-full p-3 border border-blue-300 rounded-lg" required />
+      <textarea id="station1Desc" placeholder="Station 1 Description" class="w-full p-3 border border-blue-300 rounded-lg" required></textarea>
+      <input type="text" id="station2Name" placeholder="Station 2 Name" class="w-full p-3 border border-blue-300 rounded-lg" required />
+      <textarea id="station2Desc" placeholder="Station 2 Description" class="w-full p-3 border border-blue-300 rounded-lg" required></textarea>
+      <input type="text" id="station3Name" placeholder="Station 3 Name" class="w-full p-3 border border-blue-300 rounded-lg" required />
+      <textarea id="station3Desc" placeholder="Station 3 Description" class="w-full p-3 border border-blue-300 rounded-lg" required></textarea>
+      <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700">
+        Submit
+      </button>
+    </form>
+    <div id="confirmation" class="mt-4 text-green-700 text-center hidden">
+      ✅ Block and stations added successfully!
+    </div>
+  </section>
+
+  <div id="stationA" class="station-section">
+    <a href="#" onclick="showBlock('block1')" class="back-button">⬅ Back to Block 1</a>
+    <div class="header"><h1>⚡ Power Station A</h1><p>Handles Labs & Classrooms on All Floors</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartA"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartA"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Power Station A supplies electricity to all labs and classrooms on all floors. It ensures uninterrupted power for academic activities and practical sessions.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill('A')">Generate Bill</button>
+    <div class="bill-output" id="billOutputA"></div>
+  </div>
+
+  <div id="stationB" class="station-section">
+    <a href="#" onclick="showBlock('block1')" class="back-button">⬅ Back to Block 1</a>
+    <div class="header"><h1>⚡ Power Station B</h1><p>Dedicated to Seminar Hall & Placement Cell</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartB"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartB"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Power Station B supplies electricity to the Seminar Hall and Placement Cell, ensuring uninterrupted power for events and placement activities.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill('B')">Generate Bill</button>
+    <div class="bill-output" id="billOutputB"></div>
+  </div>
+
+  <div id="stationC" class="station-section">
+    <a href="#" onclick="showBlock('block1')" class="back-button">⬅ Back to Block 1</a>
+    <div class="header"><h1>⚡ Power Station C</h1><p>Supports Solar Panel System & Admin Block</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartC"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartC"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Power Station C manages the Solar Panel System and supplies electricity to the Admin Block, promoting sustainable energy usage and efficient administration.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill('C')">Generate Bill</button>
+    <div class="bill-output" id="billOutputC"></div>
+  </div>
+
+  <div id="stationD" class="station-section">
+    <a href="#" onclick="showBlock('block2')" class="back-button">⬅ Back to Block 2</a>
+    <div class="header"><h1>⚡ Power Station D</h1><p>Powers Research Labs & Data Centers</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="lineChartD"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartD"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Supplies electricity to research labs and data centers.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(160, 'billOutputD')">Generate Bill</button>
+    <div class="bill-output" id="billOutputD"></div>
+  </div>
+
+  <div id="stationE" class="station-section">
+    <a href="#" onclick="showBlock('block2')" class="back-button">⬅ Back to Block 2</a>
+    <div class="header"><h1>⚡ Power Station E</h1><p>Powers Lecture Halls & Conference Rooms</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="lineChartE"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartE"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Supplies electricity to lecture halls and conference rooms.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(130, 'billOutputE')">Generate Bill</button>
+    <div class="bill-output" id="billOutputE"></div>
+  </div>
+
+  <div id="stationF" class="station-section">
+    <a href="#" onclick="showBlock('block2')" class="back-button">⬅ Back to Block 2</a>
+    <div class="header"><h1>⚡ Power Station F</h1><p>Serves Library & Faculty Offices</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="lineChartF"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartF"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Supplies electricity to the library and faculty offices.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(95, 'billOutputF')">Generate Bill</button>
+    <div class="bill-output" id="billOutputF"></div>
+  </div>
+
+  <div id="stationG" class="station-section">
+    <a href="#" onclick="showBlock('block3')" class="back-button">⬅ Back to Block 3</a>
+    <div class="header"><h1>⚡ Power Station G</h1><p>Serves Library & Admin Block</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartG"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartG"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Steady energy support for the Library and Administrative facilities.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(60, 'billG')">Generate Bill</button>
+    <div class="bill-output" id="billG"></div>
+  </div>
+
+  <div id="stationH" class="station-section">
+    <a href="#" onclick="showBlock('block3')" class="back-button">⬅ Back to Block 3</a>
+    <div class="header"><h1>⚡ Power Station H</h1><p>Serves Gym & Medical Center</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartH"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartH"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Reliable power to keep Gym operations and health services uninterrupted.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(50, 'billH')">Generate Bill</button>
+    <div class="bill-output" id="billH"></div>
+  </div>
+
+  <div id="stationI" class="station-section">
+    <a href="#" onclick="showBlock('block3')" class="back-button">⬅ Back to Block 3</a>
+    <div class="header"><h1>⚡ Power Station I</h1><p>Serves Engineering Labs & Workshops</p></div>
+    <div class="charts-container">
+      <div class="chart-box"><canvas id="barChartI"></canvas></div>
+      <div class="chart-box"><canvas id="pieChartI"></canvas></div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>Focused power support for high-performance lab equipment and tools.</p>
+    </div>
+    <button class="generate-bill" onclick="generateBill(90, 'billI')">Generate Bill</button>
+    <div class="bill-output" id="billI"></div>
+  </div>
+
+  <script>
+    // Show main overview
+    function showMain() {
+      document.querySelectorAll('.station-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById('main-blocks').style.display = 'block';
+    }
+
+    // Show a specific block
+    function showBlock(blockId) {
+      document.querySelectorAll('.station-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById('main-blocks').style.display = 'none';
+      document.getElementById(blockId).classList.add('active');
+    }
+
+    // Show a specific station
+    function showStation(stationId) {
+      document.querySelectorAll('.station-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(stationId).classList.add('active');
+    }
+
+    // Form submission handler for adding new block
+    document.getElementById('blockForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const blockName = document.getElementById('newBlockName').value;
+      const station1Name = document.getElementById('station1Name').value;
+      const station1Desc = document.getElementById('station1Desc').value;
+      const station2Name = document.getElementById('station2Name').value;
+      const station2Desc = document.getElementById('station2Desc').value;
+      const station3Name = document.getElementById('station3Name').value;
+      const station3Desc = document.getElementById('station3Desc').value;
+
+      // Create the new block card
+      const newBlockCard = document.createElement('a');
+      newBlockCard.href = '#';
+      newBlockCard.className = 'bg-white p-6 rounded-2xl shadow-lg hover-glow text-center block-link';
+      newBlockCard.onclick = function() {
+        showBlock(blockName.replace(/\s+/g, '').toLowerCase()); //remove spaces and lowercase
+      };
+
+      newBlockCard.innerHTML = `
+        <h3 class="text-xl font-bold text-blue-700 mb-2">${blockName}</h3>
+        <p class="text-gray-600">Custom Block</p>
+      `;
+
+      // Add the new block card to the main blocks container
+      const blocksContainer = document.getElementById('blocks-container');
+      blocksContainer.appendChild(newBlockCard);
+
+      // Create the new block section
+      const newBlockSection = document.createElement('section');
+      newBlockSection.id = blockName.replace(/\s+/g, '').toLowerCase(); // use ID without spaces
+      newBlockSection.className = 'station-section';
+      newBlockSection.innerHTML = `
+        <a href="#" onclick="showMain()" class="back-button">⬅ Back to Overview</a>
+        <h2 class="text-3xl font-bold text-center text-blue-800 mb-6">⚡ ${blockName} Power Stations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+            <h3 class="text-xl font-semibold text-blue-700 mb-2">${station1Name}</h3>
+            <p class="text-gray-600">${station1Desc}</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+            <h3 class="text-xl font-semibold text-blue-700 mb-2">${station2Name}</h3>
+            <p class="text-gray-600">${station2Desc}</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow hover-card cursor-pointer">
+            <h3 class="text-xl font-semibold text-blue-700 mb-2">${station3Name}</h3>
+            <p class="text-gray-600">${station3Desc}</p>
+          </div>
+        </div>
+      `;
+
+      // Add the new block section to the body
+      document.body.appendChild(newBlockSection);
+
+      // Show the new block
+      showBlock(newBlockSection.id);
+
+      // Reset the form
+      document.getElementById('blockForm').reset();
+      
+      // Show confirmation message
+      document.getElementById('confirmation').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.getElementById('confirmation').classList.add('hidden');
+      }, 3000);
+    });
+
+
+
+    // Bill Generator
+    function generateBill(station, outputId) {
+      let dailyUsage;
+      if (typeof station === 'string') {
+        // For stations A, B, C
+        const usage = {
+          A: 120,
+          B: 100,
+          C: 80
+        };
+        dailyUsage = usage[station];
+        outputId = `billOutput${station}`;
+      } else {
+        // For other stations where dailyUsage is passed directly
+        dailyUsage = station;
+      }
+
+      const rate = 5;
+      const daily = dailyUsage * rate;
+      const weekly = daily * 7;
+      const monthly = daily * 30;
+      document.getElementById(outputId).innerHTML = `
+        Daily Bill: ₹${daily.toFixed(2)}<br>
+        Weekly Bill: ₹${weekly.toFixed(2)}<br>
+        Monthly Bill: ₹${monthly.toFixed(2)}
+      `;
+    }
+
+    // Initialize all charts when page loads
+    window.onload = function() {
+      // Bar charts for Block 1 stations
+      new Chart(document.getElementById('barChartA'), {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [120, 150, 130, 170, 160],
+            backgroundColor: '#0288d1'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Weekly Energy Consumption'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartA'), {
+        type: 'pie',
+        data: {
+          labels: ['Labs', 'Classrooms'],
+          datasets: [{
+            data: [60, 40],
+            backgroundColor: ['#4dd0e1', '#80deea']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('barChartB'), {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [100, 120, 110, 130, 125],
+            backgroundColor: '#0288d1'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Weekly Energy Consumption'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartB'), {
+        type: 'pie',
+        data: {
+          labels: ['Seminar Hall', 'Placement Cell'],
+          datasets: [{
+            data: [70, 30],
+            backgroundColor: ['#4dd0e1', '#80deea']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('barChartC'), {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [80, 90, 85, 95, 100],
+            backgroundColor: '#0288d1'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Weekly Energy Consumption'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartC'), {
+        type: 'pie',
+        data: {
+          labels: ['Solar Panel System', 'Admin Block'],
+          datasets: [{
+            data: [60, 40],
+            backgroundColor: ['#4caf50', '#81c784']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+
+      // Line charts for Block 2 stations
+      new Chart(document.getElementById('lineChartD'), {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [150, 160, 155, 170, 165, 140, 130],
+            borderColor: '#689f38',
+            backgroundColor: 'rgba(104, 159, 56, 0.2)',
+            fill: true,
+            tension: 0.1
+          }]
+        }
+      });
+
+      new Chart(document.getElementById('pieChartD'), {
+        type: 'pie',
+        data: {
+          labels: ['Research Labs', 'Data Centers'],
+          datasets: [{
+            data: [60, 40],
+            backgroundColor: ['#aed581', '#c5e1a5']
+          }]
+        }
+      });
+
+      new Chart(document.getElementById('lineChartE'), {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [120, 130, 125, 140, 135, 110, 100],
+            borderColor: '#0288d1',
+            backgroundColor: 'rgba(2, 136, 209, 0.2)',
+            fill: true,
+            tension: 0.1
+          }]
+        }
+      });
+
+      new Chart(document.getElementById('pieChartE'), {
+        type: 'pie',
+        data: {
+          labels: ['Lecture Halls', 'Conference Rooms'],
+          datasets: [{
+            data: [65, 35],
+            backgroundColor: ['#4fc3f7', '#81d4fa']
+          }]
+        }
+      });
+
+      new Chart(document.getElementById('lineChartF'), {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [90, 95, 92, 98, 100, 85, 80],
+            borderColor: '#d81b60',
+            backgroundColor: 'rgba(216, 27, 96, 0.2)',
+            fill: true,
+            tension: 0.1
+          }]
+        }
+      });
+
+      new Chart(document.getElementById('pieChartF'), {
+        type: 'pie',
+        data: {
+          labels: ['Library', 'Faculty Offices'],
+          datasets: [{
+            data: [60, 40],
+            backgroundColor: ['#f06292', '#f8bbd0']
+          }]
+        }
+      });
+
+      // Bar charts for Block 3 stations
+      new Chart(document.getElementById('barChartG'), {
+        type: 'bar',
+        data: {
+          labels: ['6 AM','8 AM','10 AM','12 PM','2 PM','4 PM','6 PM','8 PM'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [10, 20, 35, 50, 60, 55, 40, 25],
+            backgroundColor: 'rgba(56, 142, 60, 0.6)'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Hourly Usage'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartG'), {
+        type: 'pie',
+        data: {
+          labels: ['Library', 'Admin Block'],
+          datasets: [{
+            data: [55, 45],
+            backgroundColor: ['#66bb6a', '#c8e6c9']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('barChartH'), {
+        type: 'bar',
+        data: {
+          labels: ['6 AM','8 AM','10 AM','12 PM','2 PM','4 PM','6 PM','8 PM'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [12, 18, 25, 40, 55, 50, 35, 15],
+            backgroundColor: 'rgba(255, 143, 0, 0.6)'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Hourly Usage'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartH'), {
+        type: 'pie',
+        data: {
+          labels: ['Gym', 'Medical Center'],
+          datasets: [{
+            data: [70, 30],
+            backgroundColor: ['#ffcc80', '#ffe0b2']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('barChartI'), {
+        type: 'bar',
+        data: {
+          labels: ['6 AM','8 AM','10 AM','12 PM','2 PM','4 PM','6 PM','8 PM'],
+          datasets: [{
+            label: 'kWh Usage',
+            data: [30, 45, 60, 80, 95, 90, 70, 40],
+            backgroundColor: 'rgba(94, 53, 177, 0.6)'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Hourly Usage'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('pieChartI'), {
+        type: 'pie',
+        data: {
+          labels: ['Engineering Labs', 'Workshops'],
+          datasets: [{
+            data: [65, 35],
+            backgroundColor: ['#9575cd', '#d1c4e9']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Energy Distribution'
+            }
+          }
+        }
+      });
+    };
+  </script>
+</body>
+</html>

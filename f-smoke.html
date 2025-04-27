@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smoke Alert - College Safety System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color: #d63031;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .alert-box {
+      background-color: #ffeaa7;
+      border-left: 10px solid #d63031;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .alert-box h3 {
+      margin-top: 0;
+    }
+    .alert-box p {
+      margin-bottom: 10px;
+    }
+    .alert-box button {
+      background-color: #00b894;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .alert-box button:hover {
+      background-color: #019875;
+    }
+    .footer {
+      margin-top: 30px;
+      padding: 10px;
+      text-align: center;
+      background-color: #dfe6e9;
+      color: #636e72;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>📢 Smoke Alert - College Safety System</h1>
+  </div>
+
+  <div class="container">
+    <div class="alert-box">
+      <h3>💨 Smoke Warning - Library Basement</h3>
+      <p>There has been a report of light smoke detected in the Library Basement at 7:50 AM. The electrical team has been dispatched to inspect the area.</p>
+      <p><strong>Important Actions:</strong> Please avoid using elevators and exit through the nearest stairwell.</p>
+      <p>Stay calm, and follow the safety protocols to ensure your safety.</p>
+      <a href="f-acknowledge.html" >  <button onclick="window.location.href='acknowledge_status.html';">Acknowledge Alert</button></a>
+    </div>
+
+    <div class="alert-box">
+      <h3>🚒 Fire Evacuation Route</h3>
+      <p>If you are near the Library Basement or surrounding areas, please follow the fire evacuation route displayed in the building.</p>
+      <p><strong>Route Information:</strong> The primary exit is located near the west side of the building. Please use the nearest exit to evacuate safely.</p>
+      <button onclick="window.location.href='f-safezones.html';">View Safe Zones</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Campus Safety System | Developed with ❤️ for student safety
+  </div>
+
+</body>
+</html>

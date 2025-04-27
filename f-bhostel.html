@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Hostel Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #c3ecf9, #a2c9f7);
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: #fff;
+            padding: 1em 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #5cb85c;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background-color: #4cae4c;
+        }
+
+        #home-content {
+            text-align: center;
+        }
+
+        #registration, #records, #fees, #admin-fees, #profile {
+            display: none;
+        }
+
+        #registration-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #registration-form input[type="text"],
+        #registration-form input[type="email"],
+        #registration-form input[type="file"],
+        #registration-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #registration-form button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        #registration-form button:hover {
+            background-color: #0056b3;
+        }
+
+        #fee-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #fee-list li {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        #student-records-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #student-records-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        #student-records-list li img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        #student-records-list li div {
+            flex-grow: 1;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <header>
+       
+        <h1>College Hostel Management for Boys</h1><br><br>
+    </header>
+    <div class="container">
+        <div class="navigation">
+            <a href="faculty_add_student.html" onclick="showSection('registration')">STUDENT REGISTRATION</a>
+            <a href="students-records.html" onclick="showSection('records')">STUDENT RECORDS</a>
+            <a href="edit-fee-structure.html" onclick="showSection('fees')">FEE STRUCTURE</a>
+        </div>
+
+        <section id="home-content">
+            <h2>Welcome to the College Hostel</h2>
+            <p>Manage your hostel room bookings,and student profiles online.</p><br>
+            
+        </section><a href="f-dashboard.html" style="text-decoration: none;">BACK TO HOME</a>
+
+        <section id="registration">
+            <h2>Student Registration</h2>
+            <form id="registration-form">
+                <label for="student-name">Name:</label>
+                <input type="text" id="student-name" name="student-name" required>
+
+                <label for="student-id">Student ID:</label>
+                <input type="text" id="student-id" name="student-id" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="where-from">Where From:</label>
+                <input type="text" id="where-from" name="where-from" required>
+
+                <label for="pursuing-year">Pursuing Year:</label>
+                <input type="text" id="pursuing-year" name="pursuing-year" required>
+
+                <label for="room-preference">Room Preference:</label>
+                <select id="room-preference" name="room-preference">
+                    <option value="single">Single Room</option>
+                    <option value="double">Double Room</option>
+                    <option value="grouped">Grouped Room</option>
+                </select>
+
+                <label for="ac-preference">AC or Non-AC:</label>
+                <select id="ac-preference" name="ac-preference">
+                    <option value="non-ac">Non-AC</option>
+                    <option value="ac">AC</option>
+                </select>
+
+                <label for="profile-picture">Profile Picture:</label>
+                <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
+
+                <button type="submit">Register</button>
+                <br>
+                <center><a href="f-dashboard.html" style="text-decoration: none;">BACK TO HOME</a></center>
+            </form>
+        </section>
+
+        <section id="records">
+            <h2>Student Records</h2>
+            <ul id="student-records-list">
+                </ul>
+                <br>
+                <a href="f-dashboard.html"style="text-decoration: none;" class="button">
+                <center><button class="back-btn" >BACK TO HOME</button></center></a>
+        </section>
+
+        <section id="fees">
+            <h2>Fee Structure</h2>
+           <!---- <ul id="fee-list">
+                <li>Single Room: ₹<span id="single-room-fee">55000</span></li>
+                <li>Double Room: ₹<span id="double-room-fee">45000</span></li>
+                <li>Grouped (4) Room: ₹<span id="grouped-room-fee">35000</span></li>
+                <li>AC Maintenance (if applicable): ₹10000 (additional)</li>
+            </ul>
+            <a href="dashboard.html" style="text-align:right;">BACK TO HOME</a>
+        </section>
+    </div>
+
+    <section id="profile" style="display: none;">
+        <div class="container">
+            <h2>Your Profile</h2>
+            <div id="profile-info"></div>
+            <h3>Room Details</h3>
+            <div id="room-summary"></div>
+        </div>
+        <a href="dashboard.html" style="text-align:right;">BACK TO HOME</a>
+    </section> 
+    ----->
+
+    
+
+    <script>
+        const rooms = {
+            single: { total: 50, booked: 0, halfFilled: 0 },
+            double: { total: 100, booked: 0, halfFilled: 0 },
+            grouped: { total: 100, booked: 0, halfFilled: 0 }
+        };
+
+        let hostelFees = {
+            single: 55000,
+            double: 45000,
+            grouped: 35000
+        };
+
+        const STUDENTS_KEY = 'registeredStudents';
+        let registeredStudents = JSON.parse(localStorage.getItem(STUDENTS_KEY)) || [];
+        let studentProfile = null;
+        let profilePictureUrl = null;
+
+        const homeContent = document.getElementById("home-content");
+        const registrationSection = document.getElementById("registration");
+        const recordsSection = document.getElementById("records");
+        const feesSection = document.getElementById("fees");
+        const registrationForm = document.getElementById("registration-form");
+        const profileSection = document.getElementById("profile");
+        const profileInfo = document.getElementById("profile-info");
+        const roomSummary = document.getElementById("room-summary");
+        const singleRoomFeeSpan = document.getElementById('single-room-fee');
+        const doubleRoomFeeSpan = document.getElementById('double-room-fee');
+        const groupedRoomFeeSpan = document.getElementById('grouped-room-fee');
+        const studentRecordsList = document.getElementById('student-records-list');
+
+        function showSection(sectionId) {
+            homeContent.style.display = "none";
+            registrationSection.style.display = "none";
+            recordsSection.style.display = "none";
+            feesSection.style.display = "none";
+            profileSection.style.display = "none";
+
+            if (sectionId === 'registration') {
+                registrationSection.style.display = "block";
+            } else if (sectionId === 'records') {
+                recordsSection.style.display = "block";
+                displayRegisteredStudents();
+            } else if (sectionId === 'fees') {
+                feesSection.style.display = "block";
+            } else if (sectionId === 'profile') {
+                profileSection.style.display = "block";
+            } else {
+                homeContent.style.display = "block";
+            }
+        }
+
+        function goBack() {
+            // Blacked out href as requested - replace with actual URL when needed
+            window.location.href = "dashboard.html"; // Replace "#" with your actual URL
+        }
+
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const studentName = document.getElementById('student-name').value;
+            const studentId = document.getElementById('student-id').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const whereFrom = document.getElementById('where-from').value;
+            const pursuingYear = document.getElementById('pursuing-year').value;
+            const roomPreference = document.getElementById('room-preference').value;
+            const acPreference = document.getElementById('ac-preference').value;
+            const profilePicture = document.getElementById('profile-picture').files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePictureUrl = e.target.result;
+                studentProfile = {
+                    studentName,
+                    studentId,
+                    email,
+                    phone,
+                    whereFrom,
+                    pursuingYear,
+                    roomPreference,
+                    acPreference,
+                    profilePictureUrl
+                };
+                registeredStudents.push(studentProfile);
+
+                localStorage.setItem(STUDENTS_KEY, JSON.stringify(registeredStudents));
+                displayStudentProfile();
+                showSection('profile');
+                registrationForm.reset(); 
+            };
+            if (profilePicture) {
+                reader.readAsDataURL(profilePicture);
+            } else {
+                studentProfile = {
+                    studentName,
+                    studentId,
+                    email,
+                    phone,
+                    whereFrom,
+                    pursuingYear,
+                    roomPreference,
+                    acPreference,
+                    profilePictureUrl: 'images/default-profile.png' 
+                };
+                registeredStudents.push(studentProfile);
+                localStorage.setItem(STUDENTS_KEY, JSON.stringify(registeredStudents));
+                displayStudentProfile();
+                showSection('profile');
+                registrationForm.reset();
+            }
+        });
+
+        function displayStudentProfile() {
+            profileInfo.innerHTML = `
+                <img src="${studentProfile.profilePictureUrl}" alt="Profile Picture" width="100" height="100" style="border-radius: 50%; object-fit: cover;">
+                <h3>Name: ${studentProfile.studentName}</h3>
+                <p>Email: ${studentProfile.email}</p>
+                <p>Phone: ${studentProfile.phone}</p>
+                <p>Where From: ${studentProfile.whereFrom}</p>
+                <p>Pursuing Year: ${studentProfile.pursuingYear}</p>
+                <p>Room Preference: ${studentProfile.roomPreference}</p>
+                <p>AC Preference: ${studentProfile.acPreference}</p>
+            `;
+            displayRoomSummary();
+        }
+
+        function displayRoomSummary() {
+            const roomPreference = studentProfile.roomPreference;
+            const acPreference = studentProfile.acPreference;
+            let roomPrice = hostelFees[roomPreference];
+
+            if (acPreference === "ac") {
+                roomPrice += 10000; 
+            }
+
+            roomSummary.innerHTML = `
+                <p>Room Type: ${roomPreference.charAt(0).toUpperCase() + roomPreference.slice(1)}</p>
+                <p>AC: ${acPreference.charAt(0).toUpperCase() + acPreference.slice(1)}</p>
+                <p>Price: ₹${roomPrice}</p>
+            `;
+        }
+
+        function displayRegisteredStudents() {
+            studentRecordsList.innerHTML = '';
+            registeredStudents.forEach(student => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <img src="${student.profilePictureUrl}" alt="Profile Picture">
+                    <div>
+                        <h3>Name: ${student.studentName}</h3>
+                        <p>Student ID: ${student.studentId}</p>
+                        <p>Email: ${student.email}</p>
+                        <p>Room: ${student.roomPreference}, AC: ${student.acPreference}</p>
+                    </div>
+                `;
+                studentRecordsList.appendChild(listItem);
+            });
+        }
+
+        singleRoomFeeSpan.textContent = hostelFees.single;
+        doubleRoomFeeSpan.textContent = hostelFees.double;
+        groupedRoomFeeSpan.textContent = hostelFees.grouped;
+
+        showSection('home');
+        displayRegisteredStudents();
+    </script>
+</body>
+</html>

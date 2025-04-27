@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infra-S Login</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      animation: bounceIn 1s ease-out;
+    }
+
+    .logo span {
+      color: #f90;
+    }
+
+    .button {
+      background-color: #444;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #f90;
+      color: #1a1a1a;
+      box-shadow: 0 0 10px #f90, 0 0 20px #f90;
+    }
+
+    .description {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    hr {
+      margin: 25px 0;
+      border: 0.5px solid #555;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Infra-<span>S</span></div>
+
+    <button class="button" onclick="location.href='{{ url_for('student_login') }}'">Student Login</button>
+    <div class="description">(For students enrolled in a class)</div>
+
+    <hr>
+
+    <button class="button" onclick="location.href='{{ url_for('faculty_login') }}'">Faculty Login</button>
+    <div class="description">(For educators who have access to the Infra-S Portal)</div>
+  </div>
+</body>
+</html>

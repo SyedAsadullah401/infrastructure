@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lab Booking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color:lightcyan;
+        }
+
+        body {
+            background-color: #f4f6fa;
+            padding: 20px;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #3498db;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            margin: 0 15px;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: background 0.3s ease;
+            min-width: 120px;
+        }
+
+        .navbar button:hover {
+            background-color: #2980b9;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .buttons button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background-color: #27ae60;
+        }
+
+        .section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 12px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        ul li:hover {
+            background-color: #d0d7dc;
+        }
+
+        ul li button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        ul li button:hover {
+            background-color: #c0392b;
+        }
+
+        #deleteSection {
+            background-color: #fff0f0;
+            border: 1px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.05);
+            animation: slideIn 0.4s ease-out;
+        }
+
+        #deleteSection h3 {
+            color: #c0392b;
+            margin-bottom: 15px;
+        }
+
+        #deleteForm label {
+            display: block;
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: #fefefe;
+            border-left: 4px solid #e74c3c;
+            border-radius: 5px;
+        }
+
+        #deleteSection .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #deleteSection .action-buttons button {
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        #deleteSection .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        #deleteSection .delete-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        #deleteSection .reject-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        #deleteSection .reject-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        #backBtn {
+            margin-top: 10px;
+            background-color: #2ecc71;
+        }
+
+        #backBtn:hover {
+            background-color: #27ae60;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        #bookForm label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        #bookForm input,
+        #bookForm select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #bookForm button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #bookForm button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <button onclick="showSection('availability')">AVAILABILITY</button>
+        <button onclick="showSection('pending')">PENDING</button>
+        <button onclick="showSection('status')">STATUS</button>
+    </nav>
+
+    <div class="buttons" id="availabilityButtons" style="display: none;">
+        <button onclick="addLabForm()">ADD LAB</button>
+        <button onclick="showDeleteOptions()">DELETE LAB</button>
+        <button onclick="bookalab()">BOOK LAB</button>
+    </div>
+
+    <div id="availability" class="section" style="display: none;">
+        <h2>Available Labs</h2>
+        <ul id="labList"></ul>
+    </div>
+
+    <div id="pending" class="section" style="display:none;">
+        <h2>Pending Bookings</h2>
+        <table id="pendingTable">
+            <thead>
+                <tr><th>Lab Name</th><th>User</th><th>Subject</th><th>Date</th><th>Time</th><th>Status</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    
+    <div id="status" class="section" style="display:none;">
+        <h2>Booking Status</h2>
+        <div class="buttons">
+            <button onclick="showStatus('Accepted')">ACCEPTED</button>
+            <button onclick="showStatus('Rejected')">REJECTED</button>
+        </div>
+        <div id="statusContent"></div>
+    </div>
+
+    <div id="deleteSection" style="display:none;">
+        <h3>Select a booking to delete:</h3>
+        <form id="deleteForm"></form>
+        <div class="action-buttons">
+            <button class="delete-btn" onclick="deleteBooking()">Delete Selected</button>
+            <button class="reject-btn" onclick="cancelDelete()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="bookingFormSection" class="section" style="display: none;">
+        <h2>Book a Lab</h2>
+        <form id="bookForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required />
+
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" required />
+
+            <label for="lab">Select Lab:</label>
+            <select id="lab" required></select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" required />
+
+            <label for="startTime">Start Time:</label>
+            <input type="time" id="startTime" required />
+
+            <label for="endTime">End Time:</label>
+            <input type="time" id="endTime" required />
+
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
+    <a href="f-dashboard.html " style="text-decoration: none;">BACK TO HOME </a>
+
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('availabilityButtons').style.display = (id === 'availability') ? 'block' : 'none';
+            document.getElementById('deleteSection').style.display = 'none';
+            updateUI(id);
+        }
+
+        function updateUI(sectionId) {
+            const labs = JSON.parse(localStorage.getItem('labs') || '[]');
+            const pending = JSON.parse(localStorage.getItem('pending') || '[]');
+
+            if (sectionId === 'availability') {
+                displayAvailability(labs);
+            } else if (sectionId === 'pending') {
+                displayPending(pending);
+            }
+        }
+
+        function displayAvailability(labs) {
+            const labList = document.getElementById('labList');
+            labList.innerHTML = '';
+            labs.forEach((lab, index) => {
+                labList.innerHTML += `
+                    <li>
+                        ${lab.name} — ${lab.status}
+                        <button onclick="deleteLab(${index})">Delete</button>
+                    </li>`;
+            });
+        }
+
+        function deleteLab(index) {
+            let labs = JSON.parse(localStorage.getItem('labs') || '[]');
+            if (index >= 0 && index < labs.length) {
+                if (confirm(`Are you sure you want to delete ${labs[index].name}?`)) {
+                    labs.splice(index, 1);
+                    localStorage.setItem('labs', JSON.stringify(labs));
+                    updateUI('availability');
+                }
+            }
+        }
+
+        function displayPending(pending) {
+            const table = document.getElementById('pendingTable').querySelector('tbody');
+            table.innerHTML = '';
+            pending.forEach(booking => {
+                table.innerHTML += `<tr>
+                    <td>${booking.lab}</td>
+                    <td>${booking.user}</td>
+                    <td>${booking.subject}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.startTime} - ${booking.endTime}</td>
+                    <td>${booking.status}</td>
+                </tr>`;
+            });
+        }
+
+        function showStatus(status) {
+            const pending = JSON.parse(localStorage.getItem('pending') || '[]');
+            const filtered = pending.filter(b => b.status === status);
+            let content = `<h2>${status} Bookings</h2>`;
+            filtered.forEach(b => {
+                content += `<p>${b.user} - ${b.lab} - ${b.subject} - ${b.date} (${b.startTime} to ${b.endTime})</p>`;
+            });
+            document.getElementById('statusContent').innerHTML = content;
+        }
+
+        function addLabForm() {
+            const labName = prompt("Enter Lab Name:");
+            if (labName) {
+                let labs = JSON.parse(localStorage.getItem('labs') || '[]');
+                labs.push({ name: labName, status: "Available" });
+                localStorage.setItem('labs', JSON.stringify(labs));
+                updateUI('availability');
+            }
+        }
+
+        function bookalab() {
+            document.getElementById("bookingFormSection").style.display = "block";
+            const labs = JSON.parse(localStorage.getItem('labs') || '[]');
+            const labSelect = document.getElementById("lab");
+            labSelect.innerHTML = '';
+            labs.forEach(lab => {
+                if (lab.status === "Available") {
+                    const option = document.createElement("option");
+                    option.value = lab.name;
+                    option.textContent = lab.name;
+                    labSelect.appendChild(option);
+                }
+            });
+        }
+
+        document.getElementById("bookForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value.trim();
+            const subject = document.getElementById("subject").value.trim();
+            const lab = document.getElementById("lab").value;
+            const date = document.getElementById("date").value;
+            const startTime = document.getElementById("startTime").value;
+            const endTime = document.getElementById("endTime").value;
+
+            if (!name || !subject || !lab || !date || !startTime || !endTime) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const pending = JSON.parse(localStorage.getItem("pending") || "[]");
+            pending.push({ user: name, subject, lab, date, startTime, endTime, status: "Pending" });
+            localStorage.setItem("pending", JSON.stringify(pending));
+
+            alert("Booking request submitted!");
+            document.getElementById("bookForm").reset();
+            document.getElementById("bookingFormSection").style.display = "none";
+            updateUI("pending");
+        });
+
+        function showDeleteOptions() {
+            const section = document.getElementById("deleteSection");
+            section.style.display = "block";
+            const form = document.getElementById("deleteForm");
+            form.innerHTML = "";
+            const pending = JSON.parse(localStorage.getItem("pending") || "[]");
+            pending.forEach((b, i) => {
+                const label = document.createElement("label");
+                label.innerHTML = `<input type="radio" name="deleteIndex" value="${i}" /> ${b.user} - ${b.lab} - ${b.status}`;
+                form.appendChild(label);
+            });
+        }
+
+        function cancelDelete() {
+            document.getElementById('deleteSection').style.display = "none";
+        }
+
+        function deleteBooking() {
+            const selected = document.querySelector('input[name="deleteIndex"]:checked');
+            if (selected) {
+                const index = selected.value;
+                let pending = JSON.parse(localStorage.getItem('pending') || '[]');
+                pending.splice(index, 1);
+                localStorage.setItem('pending', JSON.stringify(pending));
+                alert("Booking deleted!");
+                document.getElementById('deleteSection').style.display = "none";
+                updateUI('pending');
+            } else {
+                alert("Please select a booking to delete.");
+            }
+        }
+
+        updateUI('availability');
+    </script>
+</body>
+</html>

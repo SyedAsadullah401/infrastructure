@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notification Bar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dropdown { display: none; }
+    .notification:hover .dropdown { display: block; }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Centered Heading -->
+  <div class="text-center py-4 bg-white shadow">
+    <h1 class="text-2xl font-bold">Notifications</h1>
+  </div>
+
+  <!-- Notification Panel triggered by bell icon -->
+  <div id="notif-panel" class="hidden absolute top-24 right-4 w-96 max-h-96 overflow-y-auto bg-white rounded-lg shadow-lg z-50">
+    <!-- Notifications will be inserted here -->
+  </div><br><a href="s-dashboard.html" class="button" >
+    <center><button class="back-button" ><--- BACK TO HOME</button></center>
+  </a>
+
+  <script>
+    const notifPanel = document.getElementById('notif-panel');
+    const notifications = [
+      { title: 'Project Approved', message: 'Your ML project has been approved.', link: '#', starred: false },
+      { title: 'New Message', message: 'You have a message from the Dean.', link: '#', starred: false },
+      { title: 'Room Request', message: 'Your lab room request is pending.', link: '#', starred: false }
+    ];
+
+    function toggleNotifications() {
+      notifPanel.classList.toggle('hidden');
+    }
+
+    function renderNotifications() {
+      notifPanel.innerHTML = '';
+      notifications.forEach((notif, index) => {
+        const div = document.createElement('div');
+        div.className = `notification flex justify-between items-start p-4 border-b hover:bg-gray-50 relative ${notif.starred ? 'bg-yellow-50' : ''}`;
+        div.innerHTML = `
+          <div>
+            <a href="${notif.link}" class="block">
+              <h4 class="font-semibold">${notif.title}</h4>
+              <p class="text-sm text-gray-600">${notif.message}</p>
+            </a>
+          </div>
+          <div class="relative">
+            <button class="text-gray-600 hover:text-gray-800 text-xl" onclick="this.nextElementSibling.classList.toggle('hidden')">⋮</button>
+            <div class="dropdown hidden absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
+              <button class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100" onclick="alert('Marked as read')">Mark as Read</button>
+              <button class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100" onclick="toggleStar(${index})">${notif.starred ? 'Unstar' : 'Star'}</button>
+              <button class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100" onclick="deleteNotif(${index})">Delete</button>
+            </div>
+          </div>
+        `;
+        notifPanel.appendChild(div);
+      });
+    }
+
+    function toggleStar(index) {
+      notifications[index].starred = !notifications[index].starred;
+      renderNotifications();
+    }
+
+    function deleteNotif(index) {
+      notifications.splice(index, 1);
+      renderNotifications();
+    }
+
+    renderNotifications();
+    window.toggleNotifications = toggleNotifications;
+  </script>
+</body>
+</html>

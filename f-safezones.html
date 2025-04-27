@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>College Safety Alert System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f9fb;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0984e3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #00cec9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #00b894;
+    }
+
+    .back-button {
+      background-color: #e74c3c;
+    }
+
+    .back-button:hover {
+      background-color: #c0392b;
+    }
+
+    #safeZones {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #map {
+      width: 90%;
+      height: 500px;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      color: #636e72;
+      padding: 15px;
+      background: #dfe6e9;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🚨 College Safety Alert System</h1>
+    <p>Get real-time emergency updates and safety info</p>
+  </header>
+
+  <div class="container">
+    <a href="f-alerts.html" style="text-decoration: none;" class="button back-button">⬅ Back</a>
+    <button class="button" onclick="viewSafeZones()">View Safe Zones</button>
+  </div>
+
+  <div id="safeZones">
+    <h2>✅ Safe Zones Near You</h2>
+    <p>These are designated safe areas you can go to during an emergency.</p>
+    <div id="map"></div>
+  </div>
+
+  <script>
+    function viewSafeZones() {
+      document.getElementById('safeZones').style.display = 'block';
+      if (!window.mapInitialized) {
+        loadGoogleMaps();
+        window.mapInitialized = true;
+      }
+      window.scrollTo({ top: document.getElementById('safeZones').offsetTop, behavior: 'smooth' });
+    }
+
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 16.2330, lng: 80.0148 },
+        zoom: 16,
+      });
+
+      const safeZones = [
+        { lat: 16.2332, lng: 80.0145, name: "Library Lawn" },
+        { lat: 16.2325, lng: 80.0152, name: "Main Auditorium" },
+        { lat: 16.2340, lng: 80.0130, name: "Central Garden" }
+      ];
+
+      safeZones.forEach(zone => {
+        new google.maps.Marker({
+          position: { lat: zone.lat, lng: zone.lng },
+          map: map,
+          title: zone.name,
+          icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        });
+      });
+    }
+
+    function loadGoogleMaps() {
+      const script = document.createElement("script");
+      script.src = "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Table header */
+        th {
+            background-color: #3498DB;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        /* Table cells */
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Hover effect on table rows */
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action links */
+        a {
+            text-decoration: none;
+            color: #2980B9;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        a:hover {
+            background-color: #2980B9;
+            color: white;
+        }
+
+        /* Edit and delete links */
+        .edit-link {
+            background-color: #2ecc71;
+        }
+
+        .delete-link {
+            background-color: #e74c3c;
+        }
+
+        /* Action links hover effect */
+        .edit-link:hover {
+            background-color: #27ae60;
+        }
+
+        .delete-link:hover {
+            background-color: #c0392b;
+        }
+
+        /* Responsive design for smaller screens */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Records</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Attendance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student._id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.attendance }}%</td>
+                    <td>
+                        <a href="{{ url_for('edit_student', student_id=student._id) }}" class="edit-link">Edit</a> | 
+                        <a href="{{ url_for('delete_student', student_id=student._id) }}" class="delete-link" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Records</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Table header */
+        th {
+            background-color: #3498DB;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        /* Table cells */
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Hover effect on table rows */
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action links */
+        a {
+            text-decoration: none;
+            color: #2980B9;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        a:hover {
+            background-color: #2980B9;
+            color: white;
+        }
+
+        /* Edit and delete links */
+        .edit-link {
+            background-color: #2ecc71;
+        }
+
+        .delete-link {
+            background-color: #e74c3c;
+        }
+
+        /* Action links hover effect */
+        .edit-link:hover {
+            background-color: #27ae60;
+        }
+
+        .delete-link:hover {
+            background-color: #c0392b;
+        }
+
+        /* Responsive design for smaller screens */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Records</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Attendance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student._id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.attendance }}%</td>
+                    <td>
+                        <a href="{{ url_for('edit_student', student_id=student._id) }}" class="edit-link">Edit</a> | 
+                        <a href="{{ url_for('delete_student', student_id=student._id) }}" class="delete-link" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

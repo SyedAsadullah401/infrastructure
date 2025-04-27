@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boys Hostel - Fee Structure</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      background-color: #004080;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #004080;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .note {
+      font-size: 0.9em;
+      margin-top: 20px;
+      color: #555;
+    }
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      margin-top: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #004080;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Boys Hostel - Fee Structure</h1>
+  </header>
+
+  <h2>Academic Year 2024–2025</h2>
+
+  <!-- Form for Fee Structure Input -->
+  <div class="form-container">
+    <form action="#" method="POST">
+      <label for="admission_fee">Hostel Admission Fee (INR):</label>
+      <input type="number" id="admission_fee" name="admission_fee" value="{{ fee_structure.admission_fee }}" required>
+      
+      <label for="room_rent">Room Rent (per semester) (INR):</label>
+      <input type="number" id="room_rent" name="room_rent" value="{{ fee_structure.room_rent }}" required>
+      
+      <label for="mess_fee">Mess Fee (per semester) (INR):</label>
+      <input type="number" id="mess_fee" name="mess_fee" value="{{ fee_structure.mess_fee }}" required>
+      
+      <label for="maintenance_fee">Maintenance Fee (INR):</label>
+      <input type="number" id="maintenance_fee" name="maintenance_fee" value="{{ fee_structure.maintenance_fee }}" required>
+      
+      <button type="submit">Save Fee Structure</button>
+    </form>
+  </div>
+
+  <div class="note">
+    <p><strong>Note:</strong> All fees must be paid within the first two weeks of the semester. Late payments may incur a penalty of ₹500 per week.</p>
+  </div>
+
+  <center><a href="f-bhostel.html" class="button">
+    <button>BACK</button>
+  </a></center>
+
+</body>
+</html>

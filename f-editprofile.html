@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Profile (Faculty)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    .profile-photo-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-photo-container img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #007bff;
+    }
+
+    .profile-photo-container label {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .profile-photo-container input[type="file"] {
+      display: none;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .button-group button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .save-btn {
+      background-color: #28a745;
+    }
+
+    .reset-btn {
+      background-color: #dc3545;
+    }
+
+    @media (max-width: 600px) {
+      .button-group {
+        flex-direction: column;
+      }
+
+      .button-group button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Profile</h1>
+    <form id="editProfileForm" action="{{ url_for('edit_faculty_profile') }}" method="POST" enctype="multipart/form-data">
+      <div class="profile-photo-container">
+        <img id="profilePhoto" src="{{ user.photo or 'https://i.pravatar.cc/150?img=3' }}" alt="Profile Photo">
+        <label for="photoInput">Change Photo</label>
+        <input type="file" id="photoInput" name="photo" accept="image/*" onchange="previewPhoto(event)">
+      </div>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ user.username }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="clg">College Name</label>
+        <input type="text" id="clg" name="clg" value="{{ user.college }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="clgid">College ID</label>
+        <input type="text" id="clgid" name="clgid" value="{{ user.clgid }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="branch">Department</label>
+        <input type="text" id="branch" name="branch" value="{{ user.branch }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Contact Number</label>
+        <input type="tel" id="contact" name="contact" value="{{ user.contact }}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" value="{{ user.address }}" required>
+      </div>
+
+      <div class="form-group button-group">
+        <button type="submit" class="save-btn">Save Changes</button>
+        <button type="reset" class="reset-btn">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function previewPhoto(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById('profilePhoto').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+</body>
+</html>

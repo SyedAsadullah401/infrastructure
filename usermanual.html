@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus Infrastructure - User Manual</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #c3ecf9, #a2c9f7);
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 4rem;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, #c3ecf9, #a2c9f7);
+            border-radius: 1.25rem;
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15), 0 8px 10px -4px rgba(0, 0, 0, 0.08);
+        }
+        .section-title {
+            font-size: 2.75rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 2px 3px 5px rgba(0,0,0,0.15);
+            letter-spacing: -0.02em;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            animation: fadeIn 1s ease, pulse 2s infinite alternate;
+        }
+        .section-title:hover {
+            color: #1a202c;
+            text-shadow: 2px 3px 5px rgba(0,0,0,0.25);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.04); }
+        }
+        .subsection-title {
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 1.5rem;
+            padding-left: 0.75rem;
+            border-left: 0.35rem solid #4299e1;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 2.5rem; /* Added more space above subheadings */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .subsection-title:hover {
+            color: #2563eb;
+            border-left-color: #63b3ed;
+            background-color: #f0f7ff;
+        }
+        .subsection-title::before {
+            content: '';
+            display: inline-block;
+            margin-right: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: #4299e1;
+            animation: pulse 1s infinite alternate;
+        }
+
+        /* Added new style for key components headings */
+        .key-components-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+        .key-components-title i {
+            margin-right: 0.75rem;
+            color: #4299e1;
+        }
+
+        .paragraph {
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            transition: color 0.3s ease;
+        }
+        .paragraph:hover{
+            color: #2d3748;
+        }
+        .list-item {
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: #4a5568;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+            transition: color 0.3s ease;
+        }
+        .list-item:hover {
+            color: #2d3748;
+        }
+        .list-item strong {
+            color: #2d3748;
+        }
+        .important-note {
+            padding: 1.5rem;
+            background-color: #f0fdf4;
+            border-radius: 1rem;
+            border: 1px solid #38a169;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: #15803d;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .important-note:hover {
+            background-color: #e6f4ec;
+            border-color: #22c55e;
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 3px 5px -2px rgba(0, 0, 0, 0.06);
+        }
+        .important-note strong {
+            color: #1e4e34;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: #4299e1;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .step-number:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .step-title:hover {
+            color: #1e40af;
+        }
+        .step-description {
+            font-size: 1.1rem;
+            line-height: 1.85;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+            text-align: justify;
+            hyphens: auto;
+            transition: color 0.3s ease;
+        }
+        .step-description:hover {
+            color: #2d3748;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .manual-image {
+            max-width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.2), 0 3px 9px -3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .manual-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.25), 0 6px 12px -4px rgba(0, 0, 0, 0.15);
+        }
+        .table-container {
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.12), 0 3px 7px -3px rgba(0, 0, 0, 0.06);
+        }
+        .manual-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .manual-table thead tr {
+            background-color: #edf2f7;
+            color: #2d3748;
+            font-weight: 600;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .manual-table thead tr:hover {
+            background-color: #e0e7ed;
+        }
+        .manual-table th, .manual-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .manual-table th {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        .manual-table td:hover {
+            background-color: #f7fafc;
+            color: #1a202c;
+        }
+        .manual-table tbody tr:hover {
+            background-color: #f7fafc;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Added section divider */
+        .section-divider {
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 3rem 0;
+            position: relative;
+        }
+        .section-divider::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 3px;
+            background-color: #4299e1;
+            border-radius: 3px;
+        }
+
+        /* Fixed Back to Home Button Styles */
+        .back-to-home {
+            position: relative; /* Changed to relative positioning */
+            bottom: 0; /* Removed bottom positioning */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 2rem; /* Added margin to move it below Contact Us */
+            display: inline-block; /* Ensure it behaves like a block-level element */
+        }
+
+        .back-to-home:hover {
+            background-color: #2b6cb0;
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 5px -2px rgba(0, 0, 0, 0.08);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+            .section-title {
+                font-size: 2.25rem;
+            }
+            .subsection-title {
+                font-size: 1.5rem;
+                margin-top: 1.5rem;
+            }
+            .key-components-title {
+                font-size: 1.3rem;
+            }
+            .paragraph, .list-item, .step-description {
+                font-size: 1.05rem;
+                line-height: 1.75rem;
+            }
+            .manual-table th, .manual-table td {
+                padding: 1rem;
+            }
+            .step-number {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1.25rem;
+                margin-right: 0.75rem;
+            }
+            .step-title {
+                font-size: 1.1rem;
+            }
+            .step-description {
+                font-size: 1rem;
+                padding-left: 2.5rem;
+            }
+            .section-divider {
+                margin: 2rem 0;
+            }
+             .back-to-home {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8">
+    <div class="container">
+        <h1 class="section-title">Smart Campus Infrastructure - User Manual</h1>
+        
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-university mr-2"></i> Introduction</h2>
+            <p class="paragraph">
+                The Smart Campus Infrastructure is designed to integrate several key features aimed at enhancing campus management, efficiency, and user experience. This manual provides a focused guide to the following core components:
+            </p>
+            <ul class="list-disc pl-5">
+                <li class="list-item">Attendance Tracking</li>
+                <li class="list-item">Room Booking</li>
+                <li class="list-item">Alerts and Notifications</li>
+                <li class="list-item">Energy Usage Management</li>
+                <li class="list-item">Boys Hostel Management</li>
+                <li class="list-item">Girls Hostel Management</li>
+                <li class="list-item">Transportation Management</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-check-circle mr-2"></i> 1. Attendance Tracking</h2>
+            <p class="paragraph">
+                The Attendance Tracking system is designed to monitor and record student presence in classes and events. It provides tools for generating daily attendance reports, ensuring accurate record-keeping and facilitating administrative tasks.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Student Identification:</strong> Utilizes student ID cards or biometric recognition for efficient check-in.</li>
+                <li class="list-item"><strong>Real-time Monitoring:</strong> Provides live updates on student حضور in ongoing sessions.</li>
+                <li class="list-item"><strong>Automated Reporting:</strong> Generates daily, weekly, or monthly attendance reports.</li>
+                <li class="list-item"><strong>Data Integration:</strong> Integrates with the student information system for seamless data management.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-calendar-check mr-2"></i> 2. Room Booking</h2>
+            <p class="paragraph">
+                The Room Booking system allows students, faculty, and staff to reserve and manage campus room spaces efficiently. It streamlines the process of finding and booking rooms for various activities, such as classes, meetings, and events.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Room Availability:</strong> Displays real-time room availability with details on capacity and resources.</li>
+                <li class="list-item"><strong>Online Reservation:</strong> Enables users to book rooms online with date, time, and purpose selection.</li>
+                <li class="list-item"><strong>Booking Management:</strong> Allows users to view, modify, or cancel their bookings.</li>
+                <li class="list-item"><strong>Admin Control:</strong> Provides administrators with tools to manage room inventory and booking permissions.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-bell mr-2"></i> 3. Alerts and Notifications</h2>
+            <p class="paragraph">
+                The Alerts and Notifications system is designed to monitor emergency situations and send timely notifications to the campus community. It ensures that students, faculty, and staff are informed of critical events and can take appropriate action.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Emergency Detection:</strong> Integrates with sensors and systems to detect emergencies such as fire, security breaches, or severe weather.</li>
+                <li class="list-item"><strong>Multi-channel Notification:</strong> Sends alerts via SMS, email, push notifications, and on-screen displays.</li>
+                <li class="list-item"><strong>Targeted Messaging:</strong> Allows administrators to send notifications to specific groups or locations.</li>
+                <li class="list-item"><strong>Notification History:</strong> Maintains a log of all sent notifications for auditing and review.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-bolt mr-2"></i> 4. Energy Usage</h2>
+            <p class="paragraph">
+                The Energy Usage system provides tools to visualize and manage energy consumption across the campus. It helps in monitoring energy usage patterns, identifying areas for optimization, and promoting energy conservation.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Real-time Monitoring:</strong> Tracks energy consumption at the building or device level.</li>
+                <li class="list-item"><strong>Data Visualization:</strong> Presents energy usage data in charts and graphs for easy understanding.</li>
+                <li class="list-item"><strong>Usage Analysis:</strong> Provides tools to analyze energy consumption patterns and identify anomalies.</li>
+                <li class="list-item"><strong>Control and Optimization:</strong> Enables remote control of energy-consuming devices and systems.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-hotel mr-2"></i> 5. Boys Hostel</h2>
+            <p class="paragraph">
+                The Boys Hostel management system provides online tools to manage hostel room bookings and student profiles for male residents. It simplifies hostel administration and improves communication between staff and students.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Room Availability:</strong> Displays available rooms and their details.</li>
+                <li class="list-item"><strong>Online Booking:</strong> Allows students to book rooms online.</li>
+                <li class="list-item"><strong>Student Profiles:</strong> Maintains student information, including contact details, and emergency contacts.</li>
+                <li class="list-item"><strong>Fee Management:</strong> Provides tools for managing hostel fees and payments.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-hotel mr-2"></i> 6. Girls Hostel</h2>
+            <p class="paragraph">
+                The Girls Hostel management system provides online tools to manage hostel room bookings and student profiles for female residents. It simplifies hostel administration and improves communication between staff and students.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Room Availability:</strong> Displays available rooms and their details.</li>
+                <li class="list-item"><strong>Online Booking:</strong> Allows students to book rooms online.</li>
+                <li class="list-item"><strong>Student Profiles:</strong> Maintains student information, including contact details, and emergency contacts.</li>
+                <li class="list-item"><strong>Fee Management:</strong> Provides tools for managing hostel fees and payments.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-bus mr-2"></i> 7. Transportation</h2>
+            <p class="paragraph">
+               The Transportation system manages campus transportation services, routes, and schedules. It provides students and staff with information and tools to efficiently utilize campus transportation.
+            </p>
+            
+            <h3 class="key-components-title"><i class="fas fa-list-ul"></i> Key Components</h3>
+            <ul class="list-disc pl-5">
+                <li class="list-item"><strong>Route Management:</strong> Defines and manages campus transportation routes.</li>
+                <li class="list-item"><strong>Schedule Management:</strong> Creates and manages transportation schedules.</li>
+                <li class="list-item"><strong>Real-time Tracking:</strong> Tracks the location of transportation vehicles in real-time.</li>
+                <li class="list-item"><strong>User Information:</strong> Provides users with route, schedule, and real-time location information.</li>
+            </ul>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="subsection-title"><i class="fas fa-envelope mr-2"></i> Contact Us</h2>
+            <p class="paragraph">
+                For technical support or any inquiries, please contact our support team at support@smartcampus.com or call us at +1-555-123-4567.
+            </p>
+        </section>
+
+        <a href="s-dashboard.html" class="back-to-home">Back to Home</a>
+    </div>
+</body>
+<script>
+    const subSectionTitles = document.querySelectorAll('.subsection-title');
+
+    subSectionTitles.forEach(title => {
+        title.addEventListener('mouseenter', () => {
+            title.style.color = '#2563eb';
+            title.style.borderLeftColor = '#63b3ed';
+            title.style.transform = 'translateX(5px)';
+            title.style.transition = 'all 0.3s ease';
+            title.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        });
+
+        title.addEventListener('mouseleave', () => {
+            title.style.color = '#34495e';
+            title.style.borderLeftColor = '#4299e1';
+            title.style.transform = 'translateX(0)';
+            title.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+        });
+    });
+
+    // Added hover effect for key components titles
+    const keyComponentsTitles = document.querySelectorAll('.key-components-title');
+    keyComponentsTitles.forEach(title => {
+        title.addEventListener('mouseenter', () => {
+            title.style.color = '#2c5282';
+            title.style.borderBottomColor = '#4299e1';
+            title.style.transform = 'translateX(3px)';
+            title.style.transition = 'all 0.3s ease';
+        });
+        title.addEventListener('mouseleave', () => {
+            title.style.color = '#4a5568';
+            title.style.borderBottomColor = '#e2e8f0';
+            title.style.transform = 'translateX(0)';
+        });
+    });
+
+    const paragraphs = document.querySelectorAll('.paragraph');
+    paragraphs.forEach(p => {
+        p.addEventListener('mouseenter', () => {
+            p.style.color = '#2d3748';
+            p.style.backgroundColor = '#f7fafc';
+            p.style.transition = 'all 0.3s ease';
+            p.style.padding = '0.5rem';
+            p.style.borderRadius = '0.5rem';
+            p.style.boxShadow = '0 2px 4px rgba(0,0,0,0.08)';
+        });
+        p.addEventListener('mouseleave', () => {
+            p.style.color = '#4a5568';
+            p.style.backgroundColor = 'transparent';
+            p.style.padding = '0';
+            p.style.borderRadius = '0';
+            p.style.boxShadow = 'none';
+        });
+    });
+
+    const listItems = document.querySelectorAll('.list-item');
+    listItems.forEach(li => {
+        li.addEventListener('mouseenter', () => {
+            li.style.color = '#1e40af';
+            li.style.transform = 'translateX(5px)';
+            li.style.transition = 'all 0.3s ease';
+        });
+        li.addEventListener('mouseleave', () => {
+            li.style.color = '#4a5568';
+            li.style.transform = 'translateX(0)';
+        });
+    });
+
+    const stepNumbers = document.querySelectorAll('.step-number');
+    stepNumbers.forEach(number => {
+        number.addEventListener('mouseenter', () => {
+            number.style.transform = 'scale(1.2)';
+            number.style.boxShadow = '0 6px 8px rgba(0,0,0,0.2)';
+            number.style.transition = 'all 0.3s ease';
+        });
+        number.addEventListener('mouseleave', () => {
+            number.style.transform = 'scale(1)';
+            number.style.boxShadow = '0 2px 4px rgba(0,0,0,0.15)';
+        });
+    });
+
+    const manualImages = document.querySelectorAll('.manual-image');
+    manualImages.forEach(image => {
+        image.addEventListener('mouseenter', () => {
+            image.style.transform = 'scale(1.05)';
+            image.style.boxShadow = '0 12px 24px -6px rgba(0,0,0,0.25), 0 6px 12px -4px rgba(0,0,0,0.15)';
+            image.style.transition = 'all 0.3s ease';
+        });
+        image.addEventListener('mouseleave', () => {
+            image.style.transform = 'scale(1)';
+            image.style.boxShadow = '0 8px 16px -4px rgba(0, 0, 0, 0.2), 0 3px 9px -3px rgba(0, 0, 0, 0.08)';
+        });
+    });
+
+    const manualTableRows = document.querySelectorAll('.manual-table tbody tr');
+    manualTableRows.forEach(row => {
+        row.addEventListener('mouseenter', () => {
+            row.style.backgroundColor = '#f7fafc';
+            row.style.transform = 'scale(1.01)';
+            row.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1)';
+            row.style.transition = 'all 0.3s ease';
+        });
+        row.addEventListener('mouseleave', () => {
+            row.style.backgroundColor = 'transparent';
+            row.style.transform = 'scale(1)';
+            row.style.boxShadow = 'none';
+            row.style.transition = 'all 0.3s ease';
+        });
+    });
+</script>
+</html>

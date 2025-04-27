@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Management System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #c3ecf9, #a2c9f7);
+      min-height: 100vh;
+    }
+    .header {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    #datetime {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+    .toggle-btn {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .toggle-btn.active {
+      background-color: #007bff;
+      transform: scale(1.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f7f7f7;
+    }
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .present-btn { background: #2ed573; color: white; }
+    .present-btn:hover { background: #28c76f; transform: scale(1.05); }
+    .absent-btn { background: #ff4757; color: white; }
+    .absent-btn:hover { background: #e84150; transform: scale(1.05); }
+    .about-btn { background: #1e90ff; color: white; } 
+    .about-btn:hover { background: #0c7cd5; transform: scale(1.05); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Attendance Management System</h1>
+    <div id="datetime">Loading date and time...</div>
+  </div>
+
+  <div class="container">
+    <div class="toggle-buttons">
+      <button id="studentBtn" class="toggle-btn active" onclick="showSection('student')">Student Attendance</button>
+      <button id="facultyBtn" class="toggle-btn" onclick="showSection('faculty')">Faculty Attendance</button>
+    </div>
+
+    <div id="studentSection">
+      <h2>Student Records</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sl.No</th>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Mark</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>About</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+      </table>
+    </div>
+
+    <div id="facultySection" style="display: none;">
+      <h2>Faculty Records</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sl.No</th>
+            <th>Faculty ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Mark</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>About</th>
+          </tr>
+        </thead>
+        <tbody id="facultyTable"></tbody>
+      </table>
+    </div><br>
+    <center><a href="f-dashboard.html" style="text-decoration: none;">BACK TO HOME</a></center>
+  </div>
+  
+  
+
+  <script>
+    let students = [
+      { id: 'S1001', name: "Alice" },
+      { id: 'S1002', name: "Bob" },
+      { id: 'S1003', name: "Charlie" }
+    ];
+    let faculty = [
+      { id: 'F2001', name: "Dr. Smith" },
+      { id: 'F2002', name: "Prof. Johnson" }
+    ];
+    const studentAttendanceData = {};
+    const facultyAttendanceData = {};
+
+    const studentTable = document.getElementById('studentTable');
+    const facultyTable = document.getElementById('facultyTable');
+    const datetimeDisplay = document.getElementById('datetime');
+
+    function updateDateTime() {
+      const now = new Date();
+      datetimeDisplay.textContent = `Current Date & Time: ${now.toLocaleString()}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    function showSection(section) {
+      document.getElementById('studentSection').style.display = section === 'student' ? 'block' : 'none';
+      document.getElementById('facultySection').style.display = section === 'faculty' ? 'block' : 'none';
+      document.getElementById('studentBtn').classList.toggle('active', section === 'student');
+      document.getElementById('facultyBtn').classList.toggle('active', section === 'faculty');
+    }
+
+    function markAttendance(type, id, name, status) {
+      const now = new Date();
+      const date = now.toLocaleDateString();
+      const time = now.toLocaleTimeString();
+      const data = { type, id, name, status, date, time };
+
+      fetch('/mark_attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          if (type === 'student') {
+            studentAttendanceData[id] = data;
+            renderStudentTable();
+          } else {
+            facultyAttendanceData[id] = data;
+            renderFacultyTable();
+          }
+        } else {
+          alert('Error saving attendance!');
+        }
+      });
+    }
+
+    function renderStudentTable() {
+      studentTable.innerHTML = '';
+      students.forEach((s, i) => {
+        const a = studentAttendanceData[s.id] || { status: "Not Marked", date: "--", time: "--" };
+        studentTable.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${a.status}</td>
+            <td>
+              <button class="present-btn" onclick="markAttendance('student', '${s.id}', '${s.name}', 'Present')">Present</button>
+              <button class="absent-btn" onclick="markAttendance('student', '${s.id}', '${s.name}', 'Absent')">Absent</button>
+            </td>
+            <td>${a.date}</td>
+            <td>${a.time}</td>
+            <td><button class="about-btn">About</button></td>
+          </tr>`;
+      });
+    }
+
+    function renderFacultyTable() {
+      facultyTable.innerHTML = '';
+      faculty.forEach((f, i) => {
+        const a = facultyAttendanceData[f.id] || { status: "Not Marked", date: "--", time: "--" };
+        facultyTable.innerHTML += `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${f.id}</td>
+            <td>${f.name}</td>
+            <td>${a.status}</td>
+            <td>
+              <button class="present-btn" onclick="markAttendance('faculty', '${f.id}', '${f.name}', 'Present')">Present</button>
+              <button class="absent-btn" onclick="markAttendance('faculty', '${f.id}', '${f.name}', 'Absent')">Absent</button>
+            </td>
+            <td>${a.date}</td>
+            <td>${a.time}</td>
+            <td><button class="about-btn">About</button></td>
+          </tr>`;
+      });
+    }
+
+    renderStudentTable();
+    renderFacultyTable();
+  </script>
+</body>
+</html>

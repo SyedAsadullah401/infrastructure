@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>B.Tech Student Attendance Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample attendance data
+    const attendanceData = {
+      "Mathematics": { percent: 85, weekly: [80, 85, 90, 88, 84] },
+      "Physics": { percent: 78, weekly: [75, 78, 80, 79, 77] },
+      "Computer Science": { percent: 92, weekly: [90, 93, 94, 91, 92] },
+      "Engineering Drawing": { percent: 65, weekly: [60, 62, 68, 66, 65] },
+      "Data Structures": { percent: 88, weekly: [85, 87, 89, 88, 90] },
+    };
+
+    let subjectBarChart = null;
+    let attendancePieChart = null;
+
+    window.onload = () => {
+      loadAttendance();
+    };
+
+    function loadAttendance() {
+      const tbody = document.getElementById('attendanceTable');
+      tbody.innerHTML = '';
+
+      const labels = [];
+      const percentages = [];
+
+      for (const subject in attendanceData) {
+        const { percent } = attendanceData[subject];
+        labels.push(subject);
+        percentages.push(percent);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="border px-4 py-2 cursor-pointer text-indigo-700 hover:underline" onclick="showSubjectGraph('${subject}')">${subject}</td>
+          <td class="border px-4 py-2">${percent}%</td>
+        `;
+        tbody.appendChild(row);
+      }
+
+      // Pie chart
+      const ctxPie = document.getElementById('attendanceChart').getContext('2d');
+      if (attendancePieChart) attendancePieChart.destroy();
+      attendancePieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Attendance %',
+            data: percentages,
+            backgroundColor: [
+              '#6366F1', '#60A5FA', '#34D399', '#FBBF24', '#F87171'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+
+    function showSubjectGraph(subject) {
+      const data = attendanceData[subject];
+      if (!data) return;
+
+      const ctxBar = document.getElementById('subjectGraph').getContext('2d');
+      if (subjectBarChart) subjectBarChart.destroy();
+
+      document.getElementById('subjectGraphSection').classList.remove('hidden');
+
+      subjectBarChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+          datasets: [{
+            label: `${subject} - Weekly Attendance`,
+            data: data.weekly,
+            backgroundColor: '#4F46E5'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 flex items-center justify-center">
+  <div class="w-full max-w-5xl bg-white rounded-xl shadow-md p-8 space-y-8">
+    <h1 class="text-3xl font-bold text-center text-indigo-700">B.Tech Student Attendance</h1>
+    <a href="s-dashboard.html" style="color: blue;"<h1>BACK TO HOME </h1></a>
+    <!-- Attendance Table -->
+    <table class="w-full table-auto border-collapse border border-gray-300">
+      <thead class="bg-indigo-100">
+        <tr>
+          <th class="border px-4 py-2 text-left">Subject</th>
+          <th class="border px-4 py-2 text-left">Attendance %</th>
+        </tr>
+      </thead>
+      <tbody id="attendanceTable" class="bg-white">
+        <!-- Filled by JS -->
+      </tbody>
+    </table>
+
+    <!-- Charts Inline -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+      <!-- Bar Chart Section -->
+      <div id="subjectGraphSection" class="hidden">
+        <h2 class="text-xl font-semibold text-center text-gray-700 mb-2">Subject Weekly Attendance</h2>
+        <canvas id="subjectGraph" class="w-full max-w-md mx-auto"></canvas>
+      </div>
+
+      <!-- Pie Chart Section -->
+      <div>
+        <h2 class="text-xl font-semibold text-center text-gray-700 mb-2">Overall Attendance</h2>
+        <canvas id="attendanceChart" class="w-full max-w-md mx-auto"></canvas>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
